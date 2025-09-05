@@ -1,13 +1,13 @@
 const validateName = (name) => {
   if(!name) return false;
-  let lengthValid = name.trim().length >= 4;
+  let lengthValid = name.trim().length >= 3 && name.trim().length <= 200;
   
   return lengthValid;
 }
 
 const validateEmail = (email) => {
   if (!email) return false;
-  let lengthValid = email.length > 15;
+  let lengthValid = email.length <= 100;
 
   // validamos el formato
   let re = /^[\w.]+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
@@ -34,7 +34,7 @@ const validateFiles = (files) => {
   if (!files) return false;
 
   // validación del número de archivos
-  let lengthValid = 1 <= files.length && files.length <= 3;
+  let lengthValid = 1 <= files.length && files.length <= 5;
 
   // validación del tipo de archivo
   let typeValid = true;
@@ -54,15 +54,52 @@ const validateSelect = (select) => {
   return true
 }
 
+const validateSector = (sector) => {
+  if(!sector) return false;
+  let lengthValid = sector.trim().length <= 100;
+  return lengthValid;
+}
+
+const validateType = (type) => {
+  if(!type) return false;
+  return type === "Perro" || type === "Gato";
+}
+
+const validateAgeType = (type) => {
+  if(!type) return false;
+  return type === "Meses" || type === "Años";
+}
+
+const validateNum = (num) => {
+  if(!num) return false;
+  // debe ser un número entre 1 y 25
+  let number = parseInt(num);
+  return Number.isInteger(number) && number >= 1;
+}
+
+const validateDate = (date) => {
+  if(!date) return false;
+  let selectedDate = new Date(date);
+  let now = new Date();
+  // la fecha debe ser hoy o en el futuro
+  return selectedDate >= now;
+}
+
 const validateForm = () => {
   // obtener elementos del DOM usando el nombre del formulario.
   let myForm = document.forms["myForm"];
+  let region = myForm["region"].value;
+  let comuna = myForm["comuna"].value;
+  let sector = myForm["sector"].value;
+  let name = myForm["name"].value;
   let email = myForm["email"].value;
   let phoneNumber = myForm["phone"].value;
-  let name = myForm["nombre"].value;
+  let type = myForm["type"].value;
+  let quantity = myForm["quantity"].value;
+  let age = myForm["age"].value;
+  let ageType = myForm["age-type"].value;
+  let adoptDate = myForm["adopt_date"].value;
   let files = myForm["files"].files;
-  let department = myForm["select-department"].value;
-  let curso = myForm["select-course"].value;
 
   // variables auxiliares de validación y función.
   let invalidInputs = [];
@@ -73,6 +110,17 @@ const validateForm = () => {
   };
 
   // lógica de validación
+  if (!validateSelect(region)) {
+    setInvalidInput("Región");
+  }
+
+  if (!validateSelect(comuna)) {
+    setInvalidInput("Comuna");
+  }
+
+  if (!validateSector(sector)) {
+    setInvalidInput("Sector");
+  }
   if (!validateName(name)) {
     setInvalidInput("Nombre");
   }
@@ -82,14 +130,23 @@ const validateForm = () => {
   if (!validatePhoneNumber(phoneNumber)) {
     setInvalidInput("Número");
   }
+  if (!validateType(type)) {
+    setInvalidInput("Tipo de mascota");
+  }
+  if (!validateNum(quantity)) {
+    setInvalidInput("Cantidad");
+  }
+  if (!validateNum(age)) {
+    setInvalidInput("Edad");
+  }
+  if (!validateAgeType(ageType)) {
+    setInvalidInput("Tipo de edad");
+  }
+  if (!validateDate(adoptDate)) {
+    setInvalidInput("Fecha de adopción");
+  }
   if (!validateFiles(files)) {
     setInvalidInput("Fotos");
-  }
-  if (!validateSelect(department)) {
-    setInvalidInput("Departamento");
-  }
-  if (!validateSelect(curso)) {
-    setInvalidInput("Curso");
   }
 
   // finalmente mostrar la validación
@@ -133,6 +190,7 @@ const validateForm = () => {
     submitButton.style.marginRight = "10px";
     submitButton.addEventListener("click", () => {
       // myForm.submit();
+      window.location.href = "index.html";
       // no tenemos un backend al cual enviarle los datos
     });
 
