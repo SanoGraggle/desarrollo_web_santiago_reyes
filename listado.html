@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>W3.CSS Template</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: "Lato", sans-serif
+        }
+
+        .w3-bar,
+        h1,
+        button {
+            font-family: "Montserrat", sans-serif
+        }
+
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th,
+        td {
+            border: 1px solid #d32f2f;
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f44336;
+            color: white;
+            font-size: 1.1em;
+        }
+
+        tr {
+            background-color: #ffeaea;
+        }
+    </style>
+</head>
+
+<body>
+
+
+
+    <header class="w3-container w3-red w3-center" style="padding:12px 12px">
+        <h1 class="w3-margin w3-Xlarge">Listado de Avisos de Adopción</h1>
+    </header>
+
+    <!-- First Grid -->
+
+    <div class="w3-padding-64 w3-container w3-center">
+        <div class="w3-content w3-center w3-justify" style="max-width:1000px">
+            <table border="1">
+                <tr>
+                    <th>Fecha publicación</th>
+                    <th>Fecha Entrega</th>
+                    <th>Comuna</th>
+                    <th>Sector</th>
+                    <th>Cantidad Tipo Edad</th>
+                    <th>Nombre Contacto</th>
+                    <th>Fotos</th>
+                </tr>
+                <tr>
+                    <td>2025-08-28
+                        12:30 </td>
+                    <td>2025-10-28
+                        15:30 </td>
+                    <td>Santiago</td>
+                    <td>Beauchef
+                        851</td>
+                    <td>Camila</td>
+                    <td>
+                        3 gatos
+                        1.5 meses
+                    </td>
+                    <td><img src="gatos.jpg" alt="Gatitos" width="320px"> </td>
+                </tr>
+                <tr>
+                    <td>2025-08-07
+                        18:00</td>
+                        <td>2025-11-28
+                        14:30 </td>
+                    <td>Ñuñoa</td>
+                    <td>Villa Frei</td>
+                    <td>Fernando</td>
+                    <td>1 perro
+                        3 años</td>
+                    <td><img src="chill.jpg" alt="Perro Chill" width="150px"></td>
+                </tr>
+                <tr>
+                    <td>2024-07-17
+                        12:00
+                    </td>
+                    <td>2024-08-19
+                        13:00
+                    </td>
+                    <td>Providencia</td>
+                    <td>Los Leones</td>
+                    <td>Martin</td>
+                    <td>1 gato
+                        2 años</td>
+                    <td><img src="mlem.jpg" alt=" Lengua" width="150px"></td>
+                </tr>
+                <tr>
+                    <td>2024-06-25
+                        15:30</td>
+                        <td>2025-07-23
+                        17:30</td>
+                    <td>Las Condes</td>
+                    <td>El Golf</td>
+                    <td>Matias</td>
+                    <td>1 perro
+                        5 meses</td>
+                    <td><img src="miron.jpg" alt="Perro Miron" width="200px"></td>
+                </tr>
+                <tr>
+                    <td>2024-05-30
+                        09:00</td>
+                        <td>2025-08-30
+                        19:00</td>
+                    <td>La Florida</td>
+                    <td>Vicuña Mackenna</td>
+                    <td>Maria</td>
+                    <td>1 gatos
+                        2 años</td>
+                    <td><img src="pensativo.jpg" alt="Gato Pensativo" width="200px"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+
+    <div class="w3-container w3-black w3-center w3-opacity w3-padding-64">
+        <h1 class="w3-margin w3-xlarge">Ayuda a encontrarles un hogar, adopta ya!</h1>
+    </div>
+
+    <!-- Footer -->
+    <footer class="w3-container w3-padding-64 w3-center w3-opacity">
+        <div class="w3-xlarge w3-padding-32">
+            <i class="fa fa-facebook-official w3-hover-opacity"></i>
+            <i class="fa fa-instagram w3-hover-opacity"></i>
+            <i class="fa fa-snapchat w3-hover-opacity"></i>
+            <i class="fa fa-pinterest-p w3-hover-opacity"></i>
+            <i class="fa fa-twitter w3-hover-opacity"></i>
+            <i class="fa fa-linkedin w3-hover-opacity"></i>
+        </div>
+    </footer>
+
+    <script>
+        // Used to toggle the menu on small screens when clicking on the menu button
+        function myFunction() {
+            var x = document.getElementById("navDemo");
+            if (x.className.indexOf("w3-show") == -1) {
+                x.className += " w3-show";
+            } else {
+                x.className = x.className.replace(" w3-show", "");
+            }
+        }
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>W3.CSS Template</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: "Lato", sans-serif
+        }
+
+        .w3-bar,
+        h1,
+        button {
+            font-family: "Montserrat", sans-serif
+        }
+
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th,
+        td {
+            border: 1px solid #d32f2f;
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f44336;
+            color: white;
+            font-size: 1.1em;
+        }
+
+        tr {
+            background-color: #ffeaea;
+        }
+
+        .field-group {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <header class="w3-container w3-red w3-center" style="padding:12px 12px">
+        <h1 class="w3-margin w3-Xlarge">Agregar aviso adopción</h1>
+    </header>
+
+
+    <!-- First Grid -->
+
+    <div class="w3-padding-64 w3-container w3-center">
+        <div class="w3-content w3-justify " style="max-width:800px">
+            <form name="myForm" method="post" enctype="multipart/form-data">
+                <h2 class="w3-Xlarge w3-margin-left">¿Dónde?:</h2>
+
+                <label for="region">Región:</label>
+                <select name="region" id="region" required>
+                    <option value="">Seleccione una región</option>
+                </select><br>
+
+                <label for="comuna">Comuna:</label>
+                <select name="comuna" id="comuna" required>
+                    <option value="">Seleccione una comuna</option>
+                </select><br>
+
+                <label for="sector">Sector:</label>
+                <input type="text" name="sector" id="sector" minlength="8" required><br>
+
+                <h2 class="w3-Xlarge w3-margin-left">¿Contacto de esta publicación?:</h2>
+
+                <label for="sector">Nombre:</label>
+                <input type="text" name="name" id="name" minlength="8" required><br>
+
+                <label for="email">Email:</label>
+                <input type="email" name="email" id="email" minlength="15" required><br>
+
+                <label for="phone">Numero de celular:</label>
+                <input type="text" name="phone" id="phone" minlength="8" required><br>
+
+                <label for="contact">Contactar por:</label>
+                <select name="contact" id="contact" required>
+                    <option value="">Seleccione una opción</option>
+                </select><br>
+
+                <h2 class="w3-Xlarge w3-margin-left">¿Qué mascota ofrece en adopción?:</h2>
+
+                <label for="type">Tipo:</label>
+                <select name="type" id="type" required>
+                    <option value="">Seleccione una opción</option>
+                </select><br>
+
+                <label for="quantity">Cantidad:</label>
+                <input type="number" name="quantity" id="quantity" min="1" required><br>
+
+                <label for="age">Edad:</label>
+                <input type="number" name="age" id="age" min="1" required><br>
+
+                <label for="age-type">Unidad medida edad:</label>
+                <select name="age-type" id="age-type" required>
+                    <option value="">Seleccione una opción</option>
+                </select><br>
+
+                <label for="adopt_date">Fecha disponible para adopción:</label>
+                <input type="datetime-local" name="adopt_date" id="adopt_date" required><br>
+
+                <label for="description">Descripción:</label>
+                <textarea name="description" id="description" rows="10" cols="50" required></textarea><br>
+
+                <label for="files">Fotos:</label>
+                <input type="file" name="files" id="files" multiple accept="image/*" required><br>
+            </form>
+        </div>
+        <div class=" w3-margin-left w3-margin-top">
+        <button id="submit-btn" type="button">Agregar este aviso de adopción</button>
+        </div>
+    </div>
+
+
+    <script>
+        // Used to toggle the menu on small screens when clicking on the menu button
+        function myFunction() {
+            var x = document.getElementById("navDemo");
+            if (x.className.indexOf("w3-show") == -1) {
+                x.className += " w3-show";
+            } else {
+                x.className = x.className.replace(" w3-show", "");
+            }
+        }
+    </script>
+
+</body>
+
+</html>
