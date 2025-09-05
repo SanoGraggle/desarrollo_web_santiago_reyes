@@ -55,6 +55,52 @@
             align-items: flex-start;
             margin-bottom: 16px;
         }
+
+        .form-table {
+            border: 1px solid #d32f2f;
+            border-radius: 8px;
+            background-color: #ffeaea;
+            padding: 32px 32px;
+            margin: 0 auto;
+            box-shadow: 0 2px 8px rgba(211, 47, 47, 0.08);
+        }
+
+        .form-table label {
+            font-weight: bold;
+            color: #d32f2f;
+            margin-bottom: 4px;
+        }
+
+        .form-table input,
+        .form-table select,
+        .form-table textarea {
+            width: fit-content;
+            padding: 8px;
+            border: 1px solid #d32f2f;
+            border-radius: 4px;
+            margin-bottom: 16px;
+            background: #fff
+        }
+
+        .form-table h2 {
+            color: #f44336;
+            margin-top: 16px;
+            margin-bottom: 16px;
+        }
+
+        #submit-btn {
+            background-color: #f44336;
+            color: #fff;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 16px;
+        }
+
+        #submit-btn:hover {
+            background-color: #d32f2f;
+        }
     </style>
 </head>
 
@@ -70,84 +116,74 @@
 
     <div class="w3-padding-64 w3-container w3-center">
         <div class="w3-content w3-justify " style="max-width:800px">
-            <form name="myForm" method="post" enctype="multipart/form-data">
-                <h2 class="w3-Xlarge w3-margin-left">¿Dónde?:</h2>
+            <div class="form-table">
+                <form name="myForm" method="post" enctype="multipart/form-data">
+                    <h2 class="w3-Xlarge w3-margin-left">¿Dónde?:</h2>
 
-                <label for="region">Región:</label>
-                <select name="region" id="region" required>
-                    <option value="">Seleccione una región</option>
-                </select><br>
+                    <label for="region">Región:</label>
+                    <select name="region" id="region" required>
+                        <option value="">Seleccione una región</option>
+                    </select><br>
 
-                <label for="comuna">Comuna:</label>
-                <select name="comuna" id="comuna" required>
-                    <option value="">Seleccione una comuna</option>
-                </select><br>
+                    <label for="comuna">Comuna:</label>
+                    <select name="comuna" id="comuna" required>
+                        <option value="">Seleccione una comuna</option>
+                    </select><br>
 
-                <label for="sector">Sector:</label>
-                <input type="text" name="sector" id="sector" minlength="8" required><br>
+                    <label for="sector">Sector:</label>
+                    <input type="text" name="sector" id="sector" minlength="8" required><br>
 
-                <h2 class="w3-Xlarge w3-margin-left">¿Contacto de esta publicación?:</h2>
+                    <h2 class="w3-Xlarge w3-margin-left">¿Contacto de esta publicación?:</h2>
 
-                <label for="sector">Nombre:</label>
-                <input type="text" name="name" id="name" minlength="8" required><br>
+                    <label for="sector">Nombre:</label>
+                    <input type="text" name="name" id="name" minlength="8" required><br>
 
-                <label for="email">Email:</label>
-                <input type="email" name="email" id="email" minlength="15" required><br>
+                    <label for="email">Email:</label>
+                    <input type="email" name="email" id="email" minlength="15" required><br>
 
-                <label for="phone">Numero de celular:</label>
-                <input type="text" name="phone" id="phone" minlength="8" required><br>
+                    <label for="phone">Numero de celular:</label>
+                    <input type="text" name="phone" id="phone" minlength="8" required><br>
 
-                <label for="contact">Contactar por:</label>
-                <select name="contact" id="contact" required>
-                    <option value="">Seleccione una opción</option>
-                </select><br>
+                    <label for="contact">Contactar por:</label>
+                    <select name="contact" id="contact" required>
+                        <option value="">Seleccione una opción</option>
+                    </select><br>
 
-                <h2 class="w3-Xlarge w3-margin-left">¿Qué mascota ofrece en adopción?:</h2>
+                    <h2 class="w3-Xlarge w3-margin-left">¿Qué mascota ofrece en adopción?:</h2>
 
-                <label for="type">Tipo:</label>
-                <select name="type" id="type" required>
-                    <option value="">Seleccione una opción</option>
-                </select><br>
+                    <label for="type">Tipo:</label>
+                    <select name="type" id="type" required>
+                        <option value="">Seleccione una opción</option>
+                    </select><br>
 
-                <label for="quantity">Cantidad:</label>
-                <input type="number" name="quantity" id="quantity" min="1" required><br>
+                    <label for="quantity">Cantidad:</label>
+                    <input type="number" name="quantity" id="quantity" min="1" required><br>
 
-                <label for="age">Edad:</label>
-                <input type="number" name="age" id="age" min="1" required><br>
+                    <label for="age">Edad:</label>
+                    <input type="number" name="age" id="age" min="1" required><br>
 
-                <label for="age-type">Unidad medida edad:</label>
-                <select name="age-type" id="age-type" required>
-                    <option value="">Seleccione una opción</option>
-                </select><br>
+                    <label for="age-type">Unidad medida edad:</label>
+                    <select name="age-type" id="age-type" required>
+                        <option value="">Seleccione una opción</option>
+                    </select><br>
 
-                <label for="adopt_date">Fecha disponible para adopción:</label>
-                <input type="datetime-local" name="adopt_date" id="adopt_date" required><br>
+                    <label for="adopt_date">Fecha disponible para adopción:</label>
+                    <input type="datetime-local" name="adopt_date" id="adopt_date" required><br>
 
-                <label for="description">Descripción:</label>
-                <textarea name="description" id="description" rows="10" cols="50" required></textarea><br>
+                    <label for="description">Descripción:</label>
+                    <textarea name="description" id="description" rows="10" cols="50" required></textarea><br>
 
-                <label for="files">Fotos:</label>
-                <input type="file" name="files" id="files" multiple accept="image/*" required><br>
-            </form>
+                    <label for="files">Fotos:</label>
+                    <input type="file" name="files" id="files" multiple accept="image/*" required><br>
+                </form>
+            </div>
         </div>
         <div class=" w3-margin-left w3-margin-top">
-        <button id="submit-btn" type="button">Agregar este aviso de adopción</button>
+            <button id="submit-btn" type="button">Agregar este aviso de adopción</button>
         </div>
     </div>
 
-
-    <script>
-        // Used to toggle the menu on small screens when clicking on the menu button
-        function myFunction() {
-            var x = document.getElementById("navDemo");
-            if (x.className.indexOf("w3-show") == -1) {
-                x.className += " w3-show";
-            } else {
-                x.className = x.className.replace(" w3-show", "");
-            }
-        }
-    </script>
-
+        <script src="select.js"></script>
 </body>
 
 </html>
