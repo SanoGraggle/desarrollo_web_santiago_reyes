@@ -69,6 +69,11 @@
         #submit-btn:hover {
             background-color: #d32f2f;
         }
+        img {
+            width: 800px;
+            height: 600px;
+            object-fit: cover;
+        }
     </style>
 </head>
 
@@ -76,25 +81,23 @@
 
 
     <header class="w3-container w3-red w3-center" style="padding:12px 12px">
-        <h1 class="w3-margin w3-Xlarge">Estadisticas</h1>
+        <h1 class="w3-margin w3-Xlarge">Visualización</h1>
     </header>
 
 
     <!-- First Grid -->
 
     <div class="w3-padding-64 w3-container w3-center">
-        <img src="resources/grafico1.png" alt="Grafico lineas" width="550">
-        <img src="resources/grafico2.png" alt="Grafico torta" width="550">
-        <img src="resources/grafico3.png" alt="Grafico barras" width="550">
+        <img src="resources/gatos.jpg" alt="Gatitos">
         <div class=" w3-margin-left w3-margin-top">
-            <button id="submit-btn" type="button">Volver</button>
+            <button id="submit-btn" type="button">Cerrar</button>
         </div>
     </div>
 
 
     <script>
         document.getElementById("submit-btn").onclick = function () {
-            location.href = "index.html";
+            location.href = "info_adop.html";
         };
     </script>
 

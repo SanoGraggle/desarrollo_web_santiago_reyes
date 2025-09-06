@@ -39,6 +39,13 @@
             text-align: center;
         }
 
+        td img {
+            width: 320px;
+            height: 240px;
+            object-fit: cover;
+        }
+
+
         th {
             background-color: #f44336;
             color: white;
@@ -47,6 +54,26 @@
 
         tr {
             background-color: #ffeaea;
+        }
+
+        tr:hover {
+            cursor: pointer;
+            font-weight: bold;
+            background-color: rgb(241, 105, 95);
+        }
+
+        #submit-btn {
+            background-color: #f44336;
+            color: #fff;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 16px;
+        }
+
+        #submit-btn:hover {
+            background-color: #d32f2f;
         }
     </style>
 </head>
@@ -63,7 +90,7 @@
 
     <div class="w3-padding-64 w3-container w3-center">
         <div class="w3-content w3-center w3-justify" style="max-width:1000px">
-            <table border="1">
+            <table id="adoption-table">
                 <tr>
                     <th>Fecha publicación</th>
                     <th>Fecha Entrega</th>
@@ -86,7 +113,7 @@
                         3 gatos
                         1.5 meses
                     </td>
-                    <td><img src="gatos.jpg" alt="Gatitos" width="320px"> </td>
+                    <td><img src="resources/gatos.jpg" alt="Gatitos"> </td>
                 </tr>
                 <tr>
                     <td>2025-08-07
@@ -98,7 +125,7 @@
                     <td>Fernando</td>
                     <td>1 perro
                         3 años</td>
-                    <td><img src="chill.jpg" alt="Perro Chill" width="150px"></td>
+                    <td><img src="resources/chill.jpg" alt="Perro Chill"></td>
                 </tr>
                 <tr>
                     <td>2024-07-17
@@ -112,7 +139,7 @@
                     <td>Martin</td>
                     <td>1 gato
                         2 años</td>
-                    <td><img src="mlem.jpg" alt=" Lengua" width="150px"></td>
+                    <td><img src="resources/mlem.jpg" alt=" Lengua"></td>
                 </tr>
                 <tr>
                     <td>2024-06-25
@@ -124,7 +151,7 @@
                     <td>Matias</td>
                     <td>1 perro
                         5 meses</td>
-                    <td><img src="miron.jpg" alt="Perro Miron" width="200px"></td>
+                    <td><img src="resources/miron.jpg" alt="Perro Miron"></td>
                 </tr>
                 <tr>
                     <td>2024-05-30
@@ -136,9 +163,12 @@
                     <td>Maria</td>
                     <td>1 gatos
                         2 años</td>
-                    <td><img src="pensativo.jpg" alt="Gato Pensativo" width="200px"></td>
+                    <td><img src="resources/pensativo.jpg" alt="Gato Pensativo"></td>
                 </tr>
             </table>
+        </div>
+        <div class=" w3-margin-left w3-margin-top">
+            <button id="submit-btn" type="button">Volver</button>
         </div>
     </div>
 
@@ -159,18 +189,15 @@
         </div>
     </footer>
 
-    <script>
-        // Used to toggle the menu on small screens when clicking on the menu button
-        function myFunction() {
-            var x = document.getElementById("navDemo");
-            if (x.className.indexOf("w3-show") == -1) {
-                x.className += " w3-show";
-            } else {
-                x.className = x.className.replace(" w3-show", "");
-            }
-        }
-    </script>
 
+    <script>
+        document.getElementById("adoption-table").onclick = function () {
+            location.href = "info_adop.html";
+        };
+        document.getElementById("submit-btn").onclick = function () {
+            location.href = "index.html";
+        };
+    </script>
 </body>
 
 </html>

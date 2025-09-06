@@ -17,6 +17,30 @@ const dateUpdate = () => {
   adoptDateInput.value = formatted;
 }
 
+const maxPhotos = 5;
+const photosContainer = document.getElementById("photos-container");
+const addPhotoBtn = document.getElementById("add-photo-btn");
+
+const updateAddPhotoBtnVisibility= () => {
+  while (photosContainer.children.length < maxPhotos) {
+  addPhotoBtn.hidden = false;
+  return;
+  }
+  addPhotoBtn.hidden = true;
+}
+
+const addPhotoInput = () => {
+  if (photosContainer.children.length >= maxPhotos) return;
+  let newInput = document.createElement("input");
+  newInput.type = "file";
+  newInput.name = "files";
+  newInput.className = "photo-input";
+  newInput.accept = "image/*";
+  newInput.required = true;
+  photosContainer.appendChild(newInput);
+  updateAddPhotoBtnVisibility();
+}
+
 const poblarContactos = () => {
   let contactSelect = document.getElementById("contact");
   contactTypes.forEach(type => {
@@ -26,7 +50,7 @@ const poblarContactos = () => {
     contactSelect.appendChild(option);
   });
 };
- 
+
 const usernameUpdate = () => {
   const usernameField = document.getElementById("username-field");
   usernameField.hidden = false;
@@ -87,6 +111,9 @@ function changeArguments() {
 
 document.getElementById("region").addEventListener("change", updateComunas);
 document.getElementById("contact").addEventListener("change", usernameUpdate);
+document.getElementById("photos-container").addEventListener("click", updateAddPhotoBtnVisibility);
+document.getElementById("add-photo-btn").addEventListener("click", addPhotoInput);
+
 window.onload = () => {
   poblarContactos();
   dateUpdate();

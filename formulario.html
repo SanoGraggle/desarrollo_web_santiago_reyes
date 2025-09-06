@@ -184,8 +184,12 @@
                         <label for="description">Descripción:</label>
                         <textarea name="description" id="description" rows="10" cols="50" required></textarea><br>
 
-                        <label for="files">Fotos:</label>
-                        <input type="file" name="files" id="files" multiple accept="image/*" required><br>
+                        <label for="photos-container">Fotos:</label>
+                        <div id="photos-container">
+                            <input type="file" name="files" accept="image/*" required>
+                        </div>
+                        <button type="button" id="add-photo-btn" hidden>Agregar otra foto</button>
+
                     </form>
                 </div>
             </div>
@@ -195,9 +199,9 @@
         </div>
     </div>
 
-    <script src="region_comuna.js"></script>
-    <script src="select.js"></script>
-    <script src="validation.js"></script>
+    <script src="js/region_comuna.js"></script>
+    <script src="js/select.js"></script>
+    <script src="js/validation.js"></script>
 
 
 </body>

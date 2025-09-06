@@ -1,7 +1,7 @@
 const validateName = (name) => {
-  if(!name) return false;
+  if (!name) return false;
   let lengthValid = name.trim().length >= 3 && name.trim().length <= 200;
-  
+
   return lengthValid;
 }
 
@@ -30,55 +30,54 @@ const validatePhoneNumber = (phoneNumber) => {
   return lengthValid && formatValid;
 };
 
-const validateFiles = (files) => {
-  if (!files) return false;
-
-  // validación del número de archivos
-  let lengthValid = 1 <= files.length && files.length <= 5;
-
-  // validación del tipo de archivo
+const validateFiles = (fileInputs) => {
+  if (!fileInputs) return false;
+  let totalFiles = 0;
   let typeValid = true;
 
-  for (const file of files) {
-    // el tipo de archivo debe ser "image/<foo>" o "application/pdf"
-    let fileFamily = file.type.split("/")[0];
-    typeValid &&= fileFamily == "image" || file.type == "application/pdf";
+  for (const input of fileInputs) {
+    const files = input.files;
+    totalFiles += files.length;
+    for (const file of files) {
+      let fileFamily = file.type.split("/")[0];
+      typeValid &&= fileFamily == "image" || file.type == "application/pdf";
+    }
   }
 
-  // devolvemos la lógica AND de las validaciones.
+  let lengthValid = totalFiles >= 1 && totalFiles <= 5;
   return lengthValid && typeValid;
 };
 
 const validateSelect = (select) => {
-  if(!select) return false;
+  if (!select) return false;
   return true
 }
 
 const validateSector = (sector) => {
-  if(!sector) return false;
+  if (!sector) return false;
   let lengthValid = sector.trim().length <= 100;
   return lengthValid;
 }
 
 const validateType = (type) => {
-  if(!type) return false;
+  if (!type) return false;
   return type === "Perro" || type === "Gato";
 }
 
 const validateAgeType = (type) => {
-  if(!type) return false;
+  if (!type) return false;
   return type === "Meses" || type === "Años";
 }
 
 const validateNum = (num) => {
-  if(!num) return false;
+  if (!num) return false;
   // debe ser un número entre 1 y 25
   let number = parseInt(num);
   return Number.isInteger(number) && number >= 1;
 }
 
 const validateDate = (date) => {
-  if(!date) return false;
+  if (!date) return false;
   let selectedDate = new Date(date);
   let now = new Date();
   // la fecha debe ser hoy o en el futuro
@@ -99,7 +98,7 @@ const validateForm = () => {
   let age = myForm["age"].value;
   let ageType = myForm["age-type"].value;
   let adoptDate = myForm["adopt_date"].value;
-  let files = myForm["files"].files;
+  let fileInputs = document.querySelectorAll('input[name="files"]');
 
   // variables auxiliares de validación y función.
   let invalidInputs = [];
@@ -145,7 +144,7 @@ const validateForm = () => {
   if (!validateDate(adoptDate)) {
     setInvalidInput("Fecha de adopción");
   }
-  if (!validateFiles(files)) {
+  if (!validateFiles(fileInputs)) {
     setInvalidInput("Fotos");
   }
 
@@ -177,7 +176,7 @@ const validateForm = () => {
     myForm.style.display = "none";
 
     // establecer mensaje de éxito
-    validationMessageElem.innerText = "¡Formulario válido! ¿Deseas enviarlo o volver?";
+    validationMessageElem.innerText = "¿Está seguro que desea agregar este aviso de adopción?";
     validationListElem.textContent = "";
 
     // aplicar estilos de éxito
@@ -186,7 +185,7 @@ const validateForm = () => {
 
     // Agregar botones para enviar el formulario o volver
     let submitButton = document.createElement("button");
-    submitButton.innerText = "Enviar";
+    submitButton.innerText = "Sí, estoy seguro";
     submitButton.style.marginRight = "10px";
     submitButton.addEventListener("click", () => {
       // myForm.submit();
@@ -195,7 +194,7 @@ const validateForm = () => {
     });
 
     let backButton = document.createElement("button");
-    backButton.innerText = "Volver";
+    backButton.innerText = "“No, no estoy seguro, quiero volver al formulario";
     backButton.addEventListener("click", () => {
       // Mostrar el formulario nuevamente
       myForm.style.display = "block";

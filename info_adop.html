@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>W3.CSS Template</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: "Lato", sans-serif
+        }
+
+        .w3-bar,
+        h1,
+        button {
+            font-family: "Montserrat", sans-serif
+        }
+
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th,
+        td {
+            border: 1px solid #d32f2f;
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f44336;
+            color: white;
+            font-size: 1.1em;
+        }
+
+        td img {
+            width: 320px;
+            height: 240px;
+            object-fit: cover;
+        }
+
+        tr {
+            background-color: #ffeaea;
+        }
+
+        button {
+            background-color: #f44336;
+            color: #fff;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 16px;
+            margin-right: 8px;
+            margin-left: 8px;
+        }
+
+        button:hover {
+            background-color: #d32f2f;
+        }
+
+        img:hover {
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+
+
+    <header class="w3-container w3-red w3-center" style="padding:12px 12px">
+        <h1 class="w3-margin w3-Xlarge">Información de Adopción</h1>
+    </header>
+
+    <!-- First Grid -->
+
+    <div class="w3-padding-64 w3-container w3-center">
+        <div class="w3-content w3-center w3-justify" style="max-width:1500px">
+            <table>
+                <tr>
+                    <th>Fecha publicación</th>
+                    <th>Región</th>
+                    <th>Comuna</th>
+                    <th>Sector</th>
+                    <th>Nombre Contacto</th>
+                    <th>Email</th>
+                    <th>Número de celular</th>
+                    <th>Contactar por</th>
+                    <th>Cantidad Tipo Edad</th>
+                    <th>Fecha Entrega</th>
+                    <th>Descripción</th>
+                    <th>Fotos</th>
+                </tr>
+                <tr>
+                    <td>2025-08-28
+                        12:30 </td>
+                    <td>Región Metropolitana</td>
+                    <td>Santiago</td>
+                    <td>Beauchef
+                        851</td>
+                    <td>Camila</td>
+                    <td>camila@gmail.com</td>
+                    <td>+56912345678</td>
+                    <td>Telegram @camila11</td>
+
+                    <td>
+                        3 gatos
+                        1.5 meses
+                    </td>
+                    <td>2025-10-28
+                        15:30 </td>
+                    <td>Gatitos juguetones y bonitos, buscan un hogar lleno de amor.</td>
+                    <td id="photo"><img src="resources/gatos.jpg" alt="Gatitos"></td>
+
+                </tr>
+            </table>
+        </div>
+        <div class=" w3-margin-left w3-margin-right w3-margin-top">
+            <button id="listado-btn" type="button">Volver al listado</button>
+            <button id="inicio-btn" type="button">Volver al inicio</button>
+        </div>
+    </div>
+    <script>
+        document.getElementById("listado-btn").onclick = function () {
+            location.href = "listado.html";
+        };
+        document.getElementById("inicio-btn").onclick = function () {
+            location.href = "index.html";
+        };
+        document.getElementById("photo").onclick = function () {
+            location.href = "visualizacion.html";
+        };
+    </script>
+</body>
+
+</html>
