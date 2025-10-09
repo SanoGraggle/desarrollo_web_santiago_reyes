@@ -105,25 +105,29 @@
                     <th>Fotos</th>
                 </tr>
                 <tr>
-                    <td>2025-08-28
-                        12:30 </td>
-                    <td>Región Metropolitana</td>
-                    <td>Santiago</td>
-                    <td>Beauchef
-                        851</td>
-                    <td>Camila</td>
-                    <td>camila@gmail.com</td>
-                    <td>+56912345678</td>
-                    <td>Telegram @camila11</td>
+                    <td>{{ aviso.fecha_ingreso.strftime('%Y-%m-%d %H:%M') if aviso and aviso.fecha_ingreso }}</td>
+                    <td>{{ aviso.comuna.region.nombre if aviso and aviso.comuna and aviso.comuna.region }}</td>
+                    <td>{{ aviso.comuna.nombre if aviso and aviso.comuna }}</td>
+                    <td>{{ aviso.sector }}</td>
+                    <td>{% if aviso.contactos and aviso.contactos|length > 0 %}{{ aviso.contactos[0].identificador }}{% endif %}</td>
+                    <td>{{ aviso.email }}</td>
+                    <td>{{ aviso.celular }}</td>
+                    <td>
+                        {% for c in aviso.contactos %}
+                            {{ c.nombre }} {{ c.identificador }}{% if not loop.last %}, {% endif %}
+                        {% endfor %}
+                    </td>
 
                     <td>
-                        3 gatos
-                        1.5 meses
+                        {{ aviso.cantidad }} {{ aviso.tipo }} - {{ aviso.edad }} {{ 'meses' if aviso.unidad_medida=='m' else 'años' }}
                     </td>
-                    <td>2025-10-28
-                        15:30 </td>
-                    <td>Gatitos juguetones y bonitos, buscan un hogar lleno de amor.</td>
-                    <td id="photo"><img src="resources/gatos.jpg" alt="Gatitos"></td>
+                    <td>{{ aviso.fecha_entrega.strftime('%Y-%m-%d %H:%M') if aviso and aviso.fecha_entrega }}</td>
+                    <td>{{ aviso.descripcion }}</td>
+                    <td id="photo">
+                        {% for f in aviso.fotos %}
+                            <img src="{{ url_for('resources', filename=f.ruta_archivo) }}" alt="Foto">
+                        {% endfor %}
+                    </td>
 
                 </tr>
             </table>
@@ -135,13 +139,13 @@
     </div>
     <script>
         document.getElementById("listado-btn").onclick = function () {
-            location.href = "listado.html";
+            location.href = "/listado";
         };
         document.getElementById("inicio-btn").onclick = function () {
-            location.href = "index.html";
+            location.href = "/";
         };
         document.getElementById("photo").onclick = function () {
-            location.href = "visualizacion.html";
+            location.href = "/visualizacion";
         };
     </script>
 </body>

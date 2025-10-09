@@ -10,8 +10,6 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
-        body,
-        h1,
         h2,
         h3,
         h4,
@@ -58,7 +56,6 @@
 
         tr:hover {
             cursor: pointer;
-            font-weight: bold;
             background-color: rgb(241, 105, 95);
         }
 
@@ -100,72 +97,45 @@
                     <th>Nombre Contacto</th>
                     <th>Fotos</th>
                 </tr>
-                <tr>
-                    <td>2025-08-28
-                        12:30 </td>
-                    <td>2025-10-28
-                        15:30 </td>
-                    <td>Santiago</td>
-                    <td>Beauchef
-                        851</td>
-                    <td>Camila</td>
+                {% for aviso in avisos %}
+                <tr data-id="{{ aviso.id }}" class="aviso-row">
+                    <td>{{ aviso.fecha_ingreso.strftime('%Y-%m-%d %H:%M') if aviso.fecha_ingreso }}</td>
+                    <td>{{ aviso.fecha_entrega.strftime('%Y-%m-%d %H:%M') if aviso.fecha_entrega }}</td>
+                    <td>{{ aviso.comuna.nombre if aviso.comuna }}</td>
+                    <td>{{ aviso.sector }}</td>
+                    <td>{{ aviso.cantidad }} {{ aviso.tipo }} - {{ aviso.edad }} {{ 'meses' if aviso.unidad_medida=='m' else 'años' }}</td>
+                    <td>{% if aviso.contactos and aviso.contactos|length > 0 %}{{ aviso.contactos[0].identificador }}{% endif %}</td>
                     <td>
-                        3 gatos
-                        1.5 meses
+                        {% if aviso.fotos and aviso.fotos|length > 0 %}
+                            <img src="{{ url_for('resources', filename=aviso.fotos[0].ruta_archivo) }}" alt="Foto">
+                        {% endif %}
                     </td>
-                    <td><img src="resources/gatos.jpg" alt="Gatitos"> </td>
                 </tr>
-                <tr>
-                    <td>2025-08-07
-                        18:00</td>
-                    <td>2025-11-28
-                        14:30 </td>
-                    <td>Ñuñoa</td>
-                    <td>Villa Frei</td>
-                    <td>Fernando</td>
-                    <td>1 perro
-                        3 años</td>
-                    <td><img src="resources/chill.jpg" alt="Perro Chill"></td>
-                </tr>
-                <tr>
-                    <td>2024-07-17
-                        12:00
-                    </td>
-                    <td>2024-08-19
-                        13:00
-                    </td>
-                    <td>Providencia</td>
-                    <td>Los Leones</td>
-                    <td>Martin</td>
-                    <td>1 gato
-                        2 años</td>
-                    <td><img src="resources/mlem.jpg" alt=" Lengua"></td>
-                </tr>
-                <tr>
-                    <td>2024-06-25
-                        15:30</td>
-                    <td>2025-07-23
-                        17:30</td>
-                    <td>Las Condes</td>
-                    <td>El Golf</td>
-                    <td>Matias</td>
-                    <td>1 perro
-                        5 meses</td>
-                    <td><img src="resources/miron.jpg" alt="Perro Miron"></td>
-                </tr>
-                <tr>
-                    <td>2024-05-30
-                        09:00</td>
-                    <td>2025-08-30
-                        19:00</td>
-                    <td>La Florida</td>
-                    <td>Vicuña Mackenna</td>
-                    <td>Maria</td>
-                    <td>1 gatos
-                        2 años</td>
-                    <td><img src="resources/pensativo.jpg" alt="Gato Pensativo"></td>
-                </tr>
+                {% endfor %}
             </table>
+            <div class="w3-center w3-margin-top">
+                <div class="w3-bar">
+                    {% if page and page > 1 %}
+                        <a class="w3-button w3-red" href="{{ url_for('listado') }}?page={{ page-1 }}">&laquo; Anterior</a>
+                    {% else %}
+                        <button class="w3-button w3-light-grey" disabled>&laquo; Anterior</button>
+                    {% endif %}
+
+                    {% for p in range(1, total_pages + 1) %}
+                        {% if p == page %}
+                            <button class="w3-button w3-red">{{ p }}</button>
+                        {% else %}
+                            <a class="w3-button w3-white" href="{{ url_for('listado') }}?page={{ p }}">{{ p }}</a>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if page and page < total_pages %}
+                        <a class="w3-button w3-red" href="{{ url_for('listado') }}?page={{ page+1 }}">Siguiente &raquo;</a>
+                    {% else %}
+                        <button class="w3-button w3-light-grey" disabled>Siguiente &raquo;</button>
+                    {% endif %}
+                </div>
+            </div>
         </div>
         <div class=" w3-margin-left w3-margin-top">
             <button id="submit-btn" type="button">Volver</button>
@@ -191,11 +161,17 @@
 
 
     <script>
-        document.getElementById("adoption-table").onclick = function () {
-            location.href = "info_adop.html";
-        };
+        document.querySelectorAll('.aviso-row').forEach(function (row) {
+            row.addEventListener('click', function () {
+                var id = this.getAttribute('data-id');
+                if (id) {
+                    window.location.href = '/info_adop/' + id;
+                }
+            });
+        });
+
         document.getElementById("submit-btn").onclick = function () {
-            location.href = "index.html";
+            location.href = "/";
         };
     </script>
 </body>

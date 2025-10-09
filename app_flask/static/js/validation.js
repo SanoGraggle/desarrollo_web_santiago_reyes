@@ -173,6 +173,8 @@ const validateForm = () => {
     validationBox.hidden = false;
   } else {
     // Ocultar el formulario
+    let submitBtn = document.getElementById("submit-btn");
+    submitBtn.visible = false;
     myForm.style.display = "none";
 
     // establecer mensaje de éxito
@@ -185,16 +187,16 @@ const validateForm = () => {
 
     // Agregar botones para enviar el formulario o volver
     let submitButton = document.createElement("button");
+    submitButton.type = 'button';
     submitButton.innerText = "Sí, estoy seguro";
     submitButton.style.marginRight = "10px";
-    submitButton.addEventListener("click", () => {
-      // myForm.submit();
-      window.location.href = "index.html";
-      // no tenemos un backend al cual enviarle los datos
+    submitButton.addEventListener("click", (e) => {
+      // enviar el formulario al backend
+      myForm.submit();
     });
 
     let backButton = document.createElement("button");
-    backButton.innerText = "“No, no estoy seguro, quiero volver al formulario";
+    backButton.innerText = "No, no estoy seguro, quiero volver al formulario";
     backButton.addEventListener("click", () => {
       // Mostrar el formulario nuevamente
       myForm.style.display = "block";

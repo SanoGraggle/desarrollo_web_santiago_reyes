@@ -88,7 +88,7 @@
     <!-- First Grid -->
 
     <div class="w3-padding-64 w3-container w3-center">
-        <img src="resources/gatos.jpg" alt="Gatitos">
+    <img src="{{ url_for('resources', filename='gatos.jpg') }}" alt="Gatitos">
         <div class=" w3-margin-left w3-margin-top">
             <button id="submit-btn" type="button">Cerrar</button>
         </div>
@@ -97,7 +97,7 @@
 
     <script>
         document.getElementById("submit-btn").onclick = function () {
-            location.href = "info_adop.html";
+            location.href = "/info_adop";
         };
     </script>
 

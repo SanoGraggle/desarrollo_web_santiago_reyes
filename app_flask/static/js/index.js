@@ -3,16 +3,16 @@ let listadoBtn = document.getElementById("listado");
 let estadisticasBtn = document.getElementById("estadisticas");
 
 const goToFormulario = () => {
-    location.href = "formulario.html";
+    location.href = '/formulario';
 }
 
 const goToListado = () => {
-    location.href = "listado.html";
-}   
+    location.href = '/listado';
+}
 
 const goToEstadisticas = () => {
-    location.href = "estadisticas.html";
-}   
+    location.href = '/estadisticas';
+}
 
 formularioBtn.addEventListener("click", goToFormulario);
 listadoBtn.addEventListener("click", goToListado);
