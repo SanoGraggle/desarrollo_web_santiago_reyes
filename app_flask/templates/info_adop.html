@@ -109,28 +109,86 @@
                     <td>{{ aviso.comuna.region.nombre if aviso and aviso.comuna and aviso.comuna.region }}</td>
                     <td>{{ aviso.comuna.nombre if aviso and aviso.comuna }}</td>
                     <td>{{ aviso.sector }}</td>
-                    <td>{% if aviso.contactos and aviso.contactos|length > 0 %}{{ aviso.contactos[0].identificador }}{% endif %}</td>
+                    <td>{% if aviso.contactos and aviso.contactos|length > 0 %}{{ aviso.contactos[0].identificador }}{%
+                        endif %}</td>
                     <td>{{ aviso.email }}</td>
                     <td>{{ aviso.celular }}</td>
                     <td>
                         {% for c in aviso.contactos %}
-                            {{ c.nombre }} {{ c.identificador }}{% if not loop.last %}, {% endif %}
+                        {{ c.nombre }} {{ c.identificador }}{% if not loop.last %}, {% endif %}
                         {% endfor %}
                     </td>
 
                     <td>
-                        {{ aviso.cantidad }} {{ aviso.tipo }} - {{ aviso.edad }} {{ 'meses' if aviso.unidad_medida=='m' else 'años' }}
+                        {{ aviso.cantidad }} {{ aviso.tipo }} - {{ aviso.edad }} {{ 'meses' if aviso.unidad_medida=='m'
+                        else 'años' }}
                     </td>
                     <td>{{ aviso.fecha_entrega.strftime('%Y-%m-%d %H:%M') if aviso and aviso.fecha_entrega }}</td>
                     <td>{{ aviso.descripcion }}</td>
                     <td id="photo">
                         {% for f in aviso.fotos %}
-                            <img src="{{ url_for('resources', filename=f.ruta_archivo) }}" alt="Foto">
+                        <img src="{{ url_for('resources', filename=f.ruta_archivo) }}" alt="Foto">
                         {% endfor %}
                     </td>
 
                 </tr>
             </table>
+        </div>
+        <!-- Sección de comentarios -->
+        <div class="w3-content w3-center w3-justify" style="max-width:800px; margin-top:32px">
+            <h3>Comentarios</h3>
+
+            {% if aviso.comentarios %}
+            <div class="w3-container">
+                {% for c in aviso.comentarios %}
+                <div class="w3-panel w3-light-grey w3-leftbar w3-border-red">
+                    <p><strong>{{ c.nombre }}</strong> - {{ c.fecha.strftime('%Y-%m-%d %H:%M') }}</p>
+                    <p>{{ c.texto }}</p>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p>No hay comentarios aún.</p>
+            {% endif %}
+
+            <!-- Formulario de comentarios -->
+            <div class="w3-container" style="margin-top:32px">
+                <h4>Agregar comentario</h4>
+
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                <div class="w3-panel w3-pale-red w3-leftbar w3-border-red">
+                    {% for message in messages %}
+                    <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                {% endwith %}
+
+                <div id="comment-error" class="w3-panel w3-pale-red w3-leftbar w3-border-red" style="display:none">
+                </div>
+
+                <form id="comment-form" method="POST" action="{{ url_for('crear_comentario', aviso_id=aviso.id) }}"
+                    class="w3-container">
+                    <div class="w3-row-padding">
+                        <div class="w3-half">
+                            <label for="nombre">Nombre:</label>
+                            <input type="text" id="nombre" name="nombre" class="w3-input w3-border" required
+                                minlength="3" maxlength="80" value="{{ request.form.get('nombre', '') }}">
+                        </div>
+                    </div>
+                    <div class="w3-row-padding" style="margin-top:16px">
+                        <div class="w3-full">
+                            <label for="texto">Comentario:</label>
+                            <textarea id="texto" name="texto" class="w3-input w3-border" rows="4" cols="50"
+                                required>{{ request.form.get('texto', '') }}</textarea>
+                        </div>
+                    </div>
+                    <div class="w3-row-padding" style="margin-top:16px">
+                        <button type="submit" class="w3-button w3-red">Agregar comentario</button>
+                    </div>
+                </form>
+            </div>
         </div>
         <div class=" w3-margin-left w3-margin-right w3-margin-top">
             <button id="listado-btn" type="button">Volver al listado</button>
@@ -148,6 +206,7 @@
             location.href = "/visualizacion";
         };
     </script>
+    <script src="{{ url_for('static', filename='js/comment_validation.js') }}"></script>
 </body>
 
 </html>

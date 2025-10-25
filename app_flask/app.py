@@ -170,6 +170,19 @@ def resources(filename):
     resources_dir = os.path.join(base, 'resources')
     return send_from_directory(resources_dir, filename)
 
+@app.route('/aviso/<int:aviso_id>/comentario', methods=['POST'])
+def crear_comentario(aviso_id):
+    nombre = request.form.get('nombre', '').strip()
+    texto = request.form.get('texto', '').strip()
+
+    try:
+        db.create_comentario(aviso_id, nombre, texto)
+    except ValueError as e:
+        flash(str(e))
+    except Exception as e:
+        flash('Error al crear el comentario')
+
+    return redirect(url_for('info_adop_detail', aviso_id=aviso_id))
 
 if __name__ == '__main__':
     app.run(debug=True)

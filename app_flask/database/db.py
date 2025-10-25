@@ -59,6 +59,7 @@ class Aviso(Base):
     comuna = relationship("Comuna", back_populates="avisos")
     fotos = relationship("Foto", back_populates="aviso", cascade="all, delete")
     contactos = relationship("ContactarPor", back_populates="aviso", cascade="all, delete")
+    comentarios = relationship("Comentario", back_populates="aviso", cascade="all, delete")
 
 
 class Foto(Base):
@@ -82,6 +83,16 @@ class ContactarPor(Base):
 
     aviso = relationship("Aviso", back_populates="contactos")
 
+class Comentario(Base):
+    __tablename__ = 'comentario'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    nombre = Column(String(80), nullable=False)
+    texto = Column(String(300), nullable=False)
+    fecha = Column(DateTime, nullable=False, default=datetime.now)
+    aviso_id = Column(Integer, ForeignKey('aviso_adopcion.id'), nullable=False)
+
+    aviso = relationship("Aviso", back_populates="comentarios")
 # --- Database Functions ---
 
 
@@ -90,6 +101,7 @@ def get_aviso(aviso_id):
     aviso = session.query(Aviso).options(
         joinedload(Aviso.fotos),
         joinedload(Aviso.contactos),
+        joinedload(Aviso.comentarios),
         joinedload(Aviso.comuna).joinedload(Comuna.region)
     ).filter(Aviso.id == aviso_id).first()
     session.close()
@@ -265,7 +277,6 @@ def create_aviso(aviso_data: dict, fotos: list = None, contactos: list = None):
 
 
 def stats_avisos_por_dia():
-    """Devuelve lista de {'date': 'YYYY-MM-DD', 'count': N} ordenada por fecha asc."""
     session = SessionLocal()
     rows = session.query(func.date(Aviso.fecha_ingreso).label('dia'), func.count(Aviso.id).label('cantidad'))
     rows = rows.group_by(func.date(Aviso.fecha_ingreso)).order_by(func.date(Aviso.fecha_ingreso)).all()
@@ -278,7 +289,6 @@ def stats_avisos_por_dia():
 
 
 def stats_avisos_por_tipo():
-    """Devuelve conteo total por tipo (gato/perro). Retorna lista de {'tipo': t, 'count': n}."""
     session = SessionLocal()
     rows = session.query(Aviso.tipo.label('tipo'), func.count(Aviso.id).label('cantidad'))
     rows = rows.group_by(Aviso.tipo).all()
@@ -290,11 +300,8 @@ def stats_avisos_por_tipo():
 
 
 def stats_avisos_por_mes_y_tipo():
-    """Devuelve una lista por mes con conteos por tipo.
-    Retorna [{'month':'YYYY-MM','gato':n,'perro':m}, ...] ordenado por month asc.
-    """
+
     session = SessionLocal()
-    # Usar date_format de MySQL para agrupar por año-mes
     month_expr = func.date_format(Aviso.fecha_ingreso, '%Y-%m')
     rows = session.query(month_expr.label('mes'), Aviso.tipo.label('tipo'), func.count(Aviso.id).label('cantidad'))
     rows = rows.group_by('mes', Aviso.tipo).order_by('mes').all()
@@ -317,3 +324,27 @@ def stats_avisos_por_mes_y_tipo():
 
     session.close()
     return result
+
+def create_comentario(aviso_id: int, nombre: str, texto: str) -> int:
+    if not nombre or len(nombre) < 3 or len(nombre) > 80:
+        raise ValueError("El nombre debe tener entre 3 y 80 caracteres")
+    if not texto or len(texto) < 5 or len(texto) > 300:
+        raise ValueError("El comentario debe tener entre 5 y 300 caracteres")
+    
+    session = SessionLocal()
+    try:
+        comentario = Comentario(
+            nombre=nombre,
+            texto=texto,
+            fecha=datetime.now(),
+            aviso_id=aviso_id
+        )
+        session.add(comentario)
+        session.commit()
+        cid = comentario.id
+        session.close()
+        return cid
+    except Exception:
+        session.rollback()
+        session.close()
+        raise
