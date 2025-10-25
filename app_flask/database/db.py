@@ -82,11 +82,10 @@ class ContactarPor(Base):
 
     aviso = relationship("Aviso", back_populates="contactos")
 
-# --- Database Functions (Avisos) ---
+# --- Database Functions ---
 
 
 def get_aviso(aviso_id):
-    """Devuelve un objeto Aviso con fotos y contactos cargados, o None si no existe."""
     session = SessionLocal()
     aviso = session.query(Aviso).options(
         joinedload(Aviso.fotos),
@@ -98,7 +97,6 @@ def get_aviso(aviso_id):
 
 
 def get_avisos(limit=25, offset=0):
-    """Lista avisos ordenados por fecha_ingreso descendente con paginación."""
     session = SessionLocal()
     avisos = session.query(Aviso).options(
         joinedload(Aviso.fotos),
@@ -110,14 +108,12 @@ def get_avisos(limit=25, offset=0):
 
 
 def count_avisos():
-    """Devuelve la cantidad total de avisos en la tabla."""
     session = SessionLocal()
     total = session.query(func.count(Aviso.id)).scalar()
     session.close()
     return total
 
 def get_comuna_id_by_name(nombre_comuna):
-    """Devuelve el ID de la comuna dado su nombre, o None si no existe."""
     session = SessionLocal()
     if not nombre_comuna:
         session.close()
@@ -129,7 +125,6 @@ def get_comuna_id_by_name(nombre_comuna):
         cid = comuna.id
         session.close()
         return cid
-    # no encontrada
     session.close()
     return None
 
@@ -140,7 +135,6 @@ def create_foto(session, aviso_id, ruta_archivo, nombre_archivo):
 
 
 def create_contacto(session, aviso_id, nombre, identificador):
-    # Normalizar nombre de contacto a los valores permitidos por el enum
     if not nombre:
         raise ValueError('Contacto sin nombre')
     n = str(nombre).strip().lower()
@@ -155,7 +149,6 @@ def create_contacto(session, aviso_id, nombre, identificador):
     }
     norm = mapping.get(n)
     if norm is None:
-        # heurísticos simples
         if 'what' in n or n.startswith('wa'):
             norm = 'whatsapp'
         elif 'tele' in n:
@@ -180,27 +173,20 @@ def _parse_datetime(value):
     if isinstance(value, datetime):
         return value
     s = str(value)
-    # intentar ISO
     try:
         return datetime.fromisoformat(s)
     except Exception:
         pass
-    # intentar formatos comunes
     for fmt in ("%Y-%m-%dT%H:%M", "%Y-%m-%d %H:%M:%S", "%Y-%m-%d"):
         try:
             return datetime.strptime(s, fmt)
         except Exception:
             continue
-    # si no se pudo parsear, devolver None
     return None
 
 
 
 def create_aviso(aviso_data: dict, fotos: list = None, contactos: list = None):
-    """Crea un aviso a partir de datos posiblemente provenientes del formulario.
-
-    Normaliza 'tipo' ('Perro'/'Gato'), 'unidad_medida' ('Meses'/'Años'), convierte numeros y valida comuna_id.
-    """
     session = SessionLocal()
     try:
         fecha_ingreso = aviso_data.get('fecha_ingreso')
@@ -276,3 +262,58 @@ def create_aviso(aviso_data: dict, fotos: list = None, contactos: list = None):
         session.rollback()
         session.close()
         raise
+
+
+def stats_avisos_por_dia():
+    """Devuelve lista de {'date': 'YYYY-MM-DD', 'count': N} ordenada por fecha asc."""
+    session = SessionLocal()
+    rows = session.query(func.date(Aviso.fecha_ingreso).label('dia'), func.count(Aviso.id).label('cantidad'))
+    rows = rows.group_by(func.date(Aviso.fecha_ingreso)).order_by(func.date(Aviso.fecha_ingreso)).all()
+    result = []
+    for r in rows:
+        dia = r.dia.isoformat() if hasattr(r.dia, 'isoformat') else str(r.dia)
+        result.append({'date': dia, 'count': int(r.cantidad)})
+    session.close()
+    return result
+
+
+def stats_avisos_por_tipo():
+    """Devuelve conteo total por tipo (gato/perro). Retorna lista de {'tipo': t, 'count': n}."""
+    session = SessionLocal()
+    rows = session.query(Aviso.tipo.label('tipo'), func.count(Aviso.id).label('cantidad'))
+    rows = rows.group_by(Aviso.tipo).all()
+    result = []
+    for r in rows:
+        result.append({'tipo': r.tipo, 'count': int(r.cantidad)})
+    session.close()
+    return result
+
+
+def stats_avisos_por_mes_y_tipo():
+    """Devuelve una lista por mes con conteos por tipo.
+    Retorna [{'month':'YYYY-MM','gato':n,'perro':m}, ...] ordenado por month asc.
+    """
+    session = SessionLocal()
+    # Usar date_format de MySQL para agrupar por año-mes
+    month_expr = func.date_format(Aviso.fecha_ingreso, '%Y-%m')
+    rows = session.query(month_expr.label('mes'), Aviso.tipo.label('tipo'), func.count(Aviso.id).label('cantidad'))
+    rows = rows.group_by('mes', Aviso.tipo).order_by('mes').all()
+
+    data = {}
+    months_order = []
+    for r in rows:
+        mes = r.mes
+        tipo = r.tipo
+        cantidad = int(r.cantidad)
+        if mes not in data:
+            data[mes] = {'gato': 0, 'perro': 0}
+            months_order.append(mes)
+        data[mes][tipo] = cantidad
+
+    result = []
+    for m in months_order:
+        entry = {'month': m, 'gato': data[m].get('gato', 0), 'perro': data[m].get('perro', 0)}
+        result.append(entry)
+
+    session.close()
+    return result

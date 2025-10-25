@@ -1,4 +1,4 @@
-from flask import Flask, render_template, send_from_directory, url_for, redirect, request, flash
+from flask import Flask, render_template, send_from_directory, url_for, redirect, request, flash, jsonify
 import os
 from werkzeug.utils import secure_filename
 from database import db
@@ -150,6 +150,18 @@ def visualizacion():
 @app.route('/estadisticas')
 def estadisticas():
     return render_template('estadisticas.html')
+
+
+@app.route('/api/estadisticas')
+def api_estadisticas():
+    # Devuelve los 3 datasets necesarios para los gráficos
+    try:
+        by_day = db.stats_avisos_por_dia()
+        by_type = db.stats_avisos_por_tipo()
+        by_month_type = db.stats_avisos_por_mes_y_tipo()
+        return jsonify({'by_day': by_day, 'by_type': by_type, 'by_month_type': by_month_type})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 
 @app.route('/resources/<path:filename>')
