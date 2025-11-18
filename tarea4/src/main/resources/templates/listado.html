@@ -1,0 +1,66 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <title>Listado avisos</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+</head>
+<body>
+<section class="section">
+    <div class="container">
+        <h1 class="title">Listado de avisos</h1>
+        <table class="table is-fullwidth is-striped">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Fecha publicación</th>
+                <th>Sector</th>
+                <th>Cantidad Tipo Edad</th>
+                <th>Comuna</th>
+                <th>Nota</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="aviso : ${avisos}" th:attr="data-aviso-id=${aviso.id}">
+                <td th:text="${aviso.id}">1</td>
+                <td th:text="${aviso.fecha}">2025-06-02</td>
+                <td th:text="${aviso.sector}">Beauchef 859</td>
+                <td th:text="${aviso.cantidadTipoEdad}">1 gato 2 meses</td>
+                <td th:text="${aviso.comuna}">Santiago</td>
+                <td class="nota-cell" th:attr="data-aviso-id=${aviso.id}" th:text="${aviso.promedioNota == null ? '-' : aviso.promedioNota}">-</td>
+                <td><button class="button is-small is-link js-evaluar" type="button" th:attr="data-aviso-id=${aviso.id}">evaluar</button></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- Modal -->
+<div id="modal-evaluar" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title">Evaluar aviso</p>
+            <button class="delete js-modal-close" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+            <div class="field">
+                <label class="label">Nota (1-7)</label>
+                <div class="control">
+                    <input id="input-nota" class="input" type="number" min="1" max="7" step="1" />
+                </div>
+                <p id="error-nota" class="help is-danger" style="display:none;"></p>
+            </div>
+            <input type="hidden" id="modal-aviso-id" />
+        </section>
+        <footer class="modal-card-foot">
+            <button id="btn-submit-eval" class="button is-success">Enviar</button>
+            <button class="button js-modal-close">Cancelar</button>
+        </footer>
+    </div>
+</div>
+
+<script src="/js/evaluacion.js"></script>
+</body>
+</html>
